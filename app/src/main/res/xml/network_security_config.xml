@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android9.0之后的版本默认不允许http请求传输明文，否则会报错。 -->
+<!-- 添加此配置可以让Android9.0之后的手机在http请求传输明文时能正常执行 -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true"/>
+</network-security-config>
