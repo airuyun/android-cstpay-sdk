@@ -112,13 +112,13 @@ class WebSocketModelIml(val context: Context) : IWebSocketModel {
                     //大匠人脸规定，图片的宽度必须是4的倍数
                     val width: Int = if (bitmap.width % 4 == 0) bitmap.width else bitmap.width - bitmap.width % 4
                     val nv21: ByteArray = ImageUtil.bitmapToNv21(bitmap, width, bitmap.height)
-                    val success: Boolean = FaceServer.getInstance().register(context, nv21, width, bitmap.height, faceInfo.recordId, faceInfo.userCode, faceInfo.userId)
+                    val success: Boolean = FaceServer.getInstance().register(context, nv21, width, bitmap.height, faceInfo.userName, faceInfo.userCode, faceInfo.userId)
                     LogUtil.customLog(context, "人脸写入设备成功？= $success")
 
                     //写入设备成功后再加入数据库，不然会出现数据库已经存在记录，但是这条记录永远都无法写入设备问题
                     if (success) {
                         //保存人脸图片的文件夹由大匠人脸设定，是固定的：/data/user/0/com.cst.takefood/files/register/imgs/
-                        faceInfo.data = "${context.filesDir.path + File.separator + FaceServer.SAVE_IMG_DIR + File.separator + faceInfo.recordId}-${faceInfo.userCode}-${faceInfo.userId}.jpg"
+                        faceInfo.data = "${context.filesDir.path + File.separator + FaceServer.SAVE_IMG_DIR + File.separator + faceInfo.userName}-${faceInfo.userCode}-${faceInfo.userId}.jpg"
                         mFaceInfoEntityDao.insert(faceInfo)
                         dataBean.recordId = faceInfo.recordId
                         dataBean.state = "S"
