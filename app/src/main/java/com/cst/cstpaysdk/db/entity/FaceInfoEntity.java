@@ -4,6 +4,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * @author TJS
@@ -24,11 +25,11 @@ public class FaceInfoEntity {
     private String recordId;
 
     //用户ID
-    @Index(unique = true)
+    @Unique
     private String userId;
 
     //用户编号
-    @Index(unique = true)
+    @Unique
     private String userCode;
 
     //用户姓名
