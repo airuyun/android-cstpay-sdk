@@ -21,6 +21,7 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
 import okhttp3.ResponseBody
+import org.greenrobot.greendao.query.WhereCondition
 import java.io.File
 import java.io.IOException
 
@@ -84,8 +85,19 @@ class WebSocketModelIml(val context: Context) : IWebSocketModel {
             syncIssuedStateBean.equipmentId = jsonObject.getString("equipmentId")
 
             for (faceInfo: FaceInfoEntity in faceInfoList) {
-                val list = mFaceInfoEntityDao.queryBuilder().where(FaceInfoEntityDao.Properties.RecordId.eq(faceInfo.recordId)).build().list()
+                val condition1: WhereCondition = FaceInfoEntityDao.Properties.UserId.eq(faceInfo.userId)
+                val condition2: WhereCondition = FaceInfoEntityDao.Properties.UserCode.eq(faceInfo.userCode)
+                val list = mFaceInfoEntityDao.queryBuilder().where(condition1, condition2).build().list()
                 val dataBean = syncIssuedStateBean.DataBean()
+                if (list.size > 0 && list[0].recordTime > faceInfo.recordTime) {
+                    //数据库中的人脸已经是最新的人脸，就算平台推送了旧的人脸信息下来，也不做任何操作
+                    dataBean.recordId = faceInfo.recordId
+                    dataBean.state = "F"
+                    dataBean.synMsg = "人脸记录已过时"
+                    faceInfoSaveState.add(dataBean)
+                    return@create
+                }
+
                 if ("A" == faceInfo.operateType || "E" == faceInfo.operateType) {
                     val bitmap: Bitmap = Base64Utils.base64ToBitmap(faceInfo.data) ?: return@create
                     //Base64Utils.Base64ToFile(faceInfo.data, "${FileUtil.getPATH()+ File.separator + faceInfo.recordId}-${faceInfo.userCode}-${faceInfo.userId}.jpg")
@@ -120,8 +132,7 @@ class WebSocketModelIml(val context: Context) : IWebSocketModel {
                     if (list.isNotEmpty()) {
                         for (infoEntity: FaceInfoEntity in list) {
                             mFaceInfoEntityDao.delete(infoEntity)
-                            val success: Boolean =
-                                FaceServer.getInstance().deleteFace(context, faceInfo.userCode)
+                            val success: Boolean = FaceServer.getInstance().deleteFace(context, faceInfo.userCode)
                             if (success) {
                                 dataBean.recordId = faceInfo.recordId
                                 dataBean.state = "S"

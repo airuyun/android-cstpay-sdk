@@ -24,9 +24,11 @@ public class FaceInfoEntity {
     private String recordId;
 
     //用户ID
+    @Index(unique = true)
     private String userId;
 
     //用户编号
+    @Index(unique = true)
     private String userCode;
 
     //用户姓名
