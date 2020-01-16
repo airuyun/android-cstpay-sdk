@@ -2,7 +2,6 @@ package com.cst.cstpaysdk.mvp.traderecord.model.impl
 
 import android.content.Context
 import android.database.Cursor
-import android.util.Log
 import com.alibaba.fastjson.JSON
 import com.cst.cstpaysdk.bean.ReqTradeRecordBean
 import com.cst.cstpaysdk.bean.ResTradeRecordBean
@@ -62,8 +61,8 @@ class TradeRecordModelImpl : ITradeRecordModel {
                 rowContentList.add(if(entity.syncCount != null) entity.syncCount.toString() else "")
                 excelContentList.add(rowContentList)
             }
-            ExcelUtils.initExcel("${FileUtil.getPATH()}/CstPay/data/trade_record.xls", "$startTime1-$endTime1", entityDao.allColumns)
-            ExcelUtils.writeObjListToExcel(context, excelContentList, "${FileUtil.getPATH()}/CstPay/data/trade_record.xls")
+            ExcelUtils.initExcel("${FileUtil.getPATH()}/${context.packageName}/data/trade_record.xls", "$startTime1-$endTime1", entityDao.allColumns)
+            ExcelUtils.writeObjListToExcel(context, excelContentList, "${FileUtil.getPATH()}/${context.packageName}/data/trade_record.xls")
 
             //金额精确到分
             val sql = "SELECT SUM(cast(AMOUNT AS decimal(18,2))) FROM TRADE_RECORD_ENTITY WHERE TRADE_TIME >= $startTime1 AND TRADE_TIME <= $endTime1"
@@ -90,7 +89,7 @@ class TradeRecordModelImpl : ITradeRecordModel {
             val reqTradeRecordBean = ReqTradeRecordBean()
             val param: String = JSON.toJSONString(reqTradeRecordBean)
             LogUtil.customLog(context, "在线查询交易记录请求参数，param = $param")
-            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getTradeRecordUrl(), param, object : Callback {
+            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getTradeRecordUrl(context), param, object : Callback {
                     override fun onResponse(call: Call, response: Response) {
                         val body: ResponseBody? = response.body()
                         val result: String? = body?.string()
@@ -151,7 +150,7 @@ class TradeRecordModelImpl : ITradeRecordModel {
             }
             val param2: String = JSON.toJSONString(tradeRecordBean)
             LogUtil.customLog(context, "上传离线支付记录推送参数 = $param2")
-            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getUploadTradeRecordUrl(), param2, object : Callback {
+            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getUploadTradeRecordUrl(context), param2, object : Callback {
                     override fun onResponse(call: Call, response: Response) {
                         val body: ResponseBody? = response.body()
                         val result: String? = body?.string()

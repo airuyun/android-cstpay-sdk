@@ -13,7 +13,6 @@ import com.cst.cstpaysdk.db.entity.EquipmentCreditEntity
 import com.cst.cstpaysdk.db.entity.TradeRecordEntity
 import com.cst.cstpaysdk.db.entity.UserCreditEntity
 import com.cst.cstpaysdk.mvp.cstpay.model.ICstPayModel
-import com.cst.cstpaysdk.net.OkHttp3Utils
 import com.cst.cstpaysdk.net.OkHttp3Utils1
 import com.cst.cstpaysdk.util.*
 import com.dj.hrfacelib.util.ImageUtil
@@ -27,17 +26,17 @@ import org.greenrobot.greendao.query.WhereCondition
 import java.io.File
 import java.io.IOException
 
-class CstPayModelImpl : ICstPayModel {
+class CstPayModelImpl(val context: Context) : ICstPayModel {
 
     /**
      * 人脸识别成功后抓拍到的照片临时保存文件夹路径（人脸识别成功后抓拍的照片，下次人脸识别成功时删除）
      */
-    private val mSnapPhotoCacheDir:String = "${FileUtil.getPATH()}/CstPay/face_picture_cache/"
+    private val mSnapPhotoCacheDir:String = "${FileUtil.getPATH()}/${context.packageName}/face_picture_cache/"
 
     /**
      * 支付成功后，将抓拍的图片保存到该文件夹，最多保存10万张人脸抓拍图片，超过10万张则将旧图片删除
      */
-    private val mSnapPhotoSaveDir:String = "${FileUtil.getPATH()}/CstPay/face_picture/"
+    private val mSnapPhotoSaveDir:String = "${FileUtil.getPATH()}/${context.packageName}/face_picture/"
 
     /**
      * 本地保存的最多交易记录数量为10万条
@@ -71,7 +70,7 @@ class CstPayModelImpl : ICstPayModel {
             reqCstPayBean.data?.equipmentId = payInfoBean.equipmentId
             val param: String = JSON.toJSONString(reqCstPayBean)
             LogUtil.customLog(context.applicationContext, "康索特三代平台在线支付推送参数，param = $param")
-            OkHttp3Utils1.get().doPostJson(context, ConstantUtils.getCstPayUrl(), param, object : Callback {
+            OkHttp3Utils1.get().doPostJson(context, ConstantUtils.getCstPayUrl(context), param, object : Callback {
                     override fun onResponse(call: Call, response: Response) {
                         val body: ResponseBody? = response.body()
                         val result: String? = body?.string()

@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class CstPayPresenter(private val context: Context) : BasePresenter<ICstPayModel>() {
 
-    private val cstPayModel: ICstPayModel = CstPayModelImpl()
+    private val cstPayModel: ICstPayModel = CstPayModelImpl(context)
 
     fun cstOnlinePay(payInfoBean: PayInfoBean, cstPayView: ICstPayView?) {
         cstPayModel.cstOnlinePay(context, payInfoBean)

@@ -108,7 +108,7 @@ class WebSocketService : Service(), IWebSocketView {
             }
         }
         mTimer1 = Timer()
-        mTimer1?.schedule(mTimerTask1, 0, (/*2 * 60*/20 * 1000).toLong())
+        mTimer1?.schedule(mTimerTask1, 0, (2 * 60 * 1000).toLong())
 
         //消费记录上报，每隔15分钟更新一次
         mTimerTask2 = object : TimerTask() {
@@ -117,7 +117,7 @@ class WebSocketService : Service(), IWebSocketView {
             }
         }
         mTimer2 = Timer()
-        mTimer2?.schedule(mTimerTask2, 0, (/*15 * 60*/60 * 1000).toLong())
+        mTimer2?.schedule(mTimerTask2, 0, (15 * 60 * 1000).toLong())
     }
 
     override fun webSocketConnect(listener: CstWebSocketListener) {

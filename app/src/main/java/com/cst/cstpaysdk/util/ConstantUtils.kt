@@ -1,5 +1,6 @@
 package com.cst.cstpaysdk.util
 
+import android.content.Context
 import com.alibaba.fastjson.JSON
 import com.cst.cstpaysdk.bean.InitInfoBean
 
@@ -24,8 +25,8 @@ object ConstantUtils {
     private var equipmentId: String? = null
     private var equipmentNo: String? = null
 
-    fun getInitInfo(): InitInfoBean? {
-        val filePath = "${FileUtil.getPATH()}/CstPay/data/initinfo.txt"
+    fun getInitInfo(context: Context): InitInfoBean? {
+        val filePath = "${FileUtil.getPATH()}/${context.packageName}/data/initinfo.txt"
         val initInfo: String? = FileUtil.readFile(filePath)
         return if(initInfo != null) {
             JSON.parseObject(initInfo, InitInfoBean::class.java)
@@ -50,73 +51,73 @@ object ConstantUtils {
         this.equipmentNo = equipmentNo
     }
 
-    fun getRegisterUrl(): String {
-        return "${rootHttpURL()}/api/equipment/apiout/netApplyFor"
+    fun getRegisterUrl(context: Context): String {
+        return "${rootHttpURL(context)}/api/equipment/apiout/netApplyFor"
     }
 
-    fun getSecretKeyUrl(): String {
-        return "${rootHttpURL()}/api/equipment/apiout/getsecretKey"
+    fun getSecretKeyUrl(context: Context): String {
+        return "${rootHttpURL(context)}/api/equipment/apiout/getsecretKey"
     }
 
-    fun getShopInfoUrl(): String {
-        return "${rootHttpURL()}/api/repast/fbTakeFood/getShopInfoByMac"
+    fun getShopInfoUrl(context: Context): String {
+        return "${rootHttpURL(context)}/api/repast/fbTakeFood/getShopInfoByMac"
     }
 
-    fun getWallpaperUrl(): String {
-        return "${rootHttpURL()}/"
+    fun getWallpaperUrl(context: Context): String {
+        return "${rootHttpURL(context)}/"
     }
 
-    fun getTradeRecordUrl(): String {
-        return "${rootHttpURL()}/"
+    fun getTradeRecordUrl(context: Context): String {
+        return "${rootHttpURL(context)}/"
     }
 
     /**
      * 在线支付url
      */
-    fun getCstPayUrl(): String {
-        return "${rootHttpURL()}/api/consume/onlineConsume"
+    fun getCstPayUrl(context: Context): String {
+        return "${rootHttpURL(context)}/api/consume/onlineConsume"
     }
 
-    fun dealRecordUrl(): String {
-        return "${rootHttpURL()}/api/consume/supermarket/transLog"
+    fun dealRecordUrl(context: Context): String {
+        return "${rootHttpURL(context)}/api/consume/supermarket/transLog"
     }
 
     /**
      * 离线支付记录上报url
      */
-    fun getUploadTradeRecordUrl(): String {
-        return "${rootHttpURL()}/api/consume/offlineTradeLogUp"
+    fun getUploadTradeRecordUrl(context: Context): String {
+        return "${rootHttpURL(context)}/api/consume/offlineTradeLogUp"
     }
 
-    fun getWebSocketUrl(): String {
-        return "${rootWebSocketURL()}/websocket"
+    fun getWebSocketUrl(context: Context): String {
+        return "${rootWebSocketURL(context)}/websocket"
     }
 
-    fun getSyncIssuedStateUrl(): String {
-        return "${rootHttpURL()}/api/equipment/apiout/synIssuedState"
+    fun getSyncIssuedStateUrl(context: Context): String {
+        return "${rootHttpURL(context)}/api/equipment/apiout/synIssuedState"
     }
 
-    private fun rootHttpURL(): String {
-        return "http://${getIP()}:${getPort()}"
+    private fun rootHttpURL(context: Context): String {
+        return "http://${getIP(context)}:${getPort(context)}"
     }
 
-    private fun rootWebSocketURL(): String {
-        return "ws://${getWebSocketIP()}:${getWebSocketPort()}"
+    private fun rootWebSocketURL(context: Context): String {
+        return "ws://${getWebSocketIP(context)}:${getWebSocketPort(context)}"
     }
 
-    private fun getIP(): String? {
-        return getInitInfo()?.serverIp ?: "0.0.0.0"
+    private fun getIP(context: Context): String? {
+        return getInitInfo(context)?.serverIp ?: "0.0.0.0"
     }
 
-    private fun getPort(): String {
-        return getInitInfo()?.serverPort ?: "8080"
+    private fun getPort(context: Context): String {
+        return getInitInfo(context)?.serverPort ?: "8080"
     }
 
-    private fun getWebSocketIP(): String {
-        return getInitInfo()?.webSocketIp ?: "0.0.0.0"
+    private fun getWebSocketIP(context: Context): String {
+        return getInitInfo(context)?.webSocketIp ?: "0.0.0.0"
     }
 
-    private fun getWebSocketPort(): String {
-        return getInitInfo()?.webSocketPort ?: "8080"
+    private fun getWebSocketPort(context: Context): String {
+        return getInitInfo(context)?.webSocketPort ?: "8080"
     }
 }

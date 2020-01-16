@@ -26,7 +26,7 @@ class ShopInfoModelImpl : IShopInfoModel {
             val param: String = JSON.toJSONString(reqShopInfoBean)
             LogUtil.customLog(context.applicationContext, "获取店铺信息请求参数 = $param")
 
-            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getShopInfoUrl(), param, object : Callback {
+            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getShopInfoUrl(context), param, object : Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val body: ResponseBody? = response.body()
                     val result: String? = body?.string()

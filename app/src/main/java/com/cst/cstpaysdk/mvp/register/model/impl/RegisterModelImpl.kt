@@ -2,6 +2,7 @@ package com.cst.cstpaysdk.mvp.register.model.impl
 
 import android.content.Context
 import com.alibaba.fastjson.JSON
+import com.cst.cstpaysdk.bean.InitInfoBean
 import com.cst.cstpaysdk.bean.ReqRegisterBean
 import com.cst.cstpaysdk.bean.ResRegisterBean
 import com.cst.cstpaysdk.mvp.register.model.IRegisterModel
@@ -29,12 +30,17 @@ class RegisterModelImpl : IRegisterModel {
             val reqRegisterBean = ReqRegisterBean()
             //设备类型，0201-人脸挂式消费机 0202-人脸双屏消费机
             //0203-人脸面板消费机 0204-普通二维码消费机 205-普通消费机
+
+            val initInfoBean: InitInfoBean? = ConstantUtils.getInitInfo(context)
             reqRegisterBean.equipmentType = "0202"
+            initInfoBean?.equipmentType?.let {
+                reqRegisterBean.equipmentType = initInfoBean.equipmentType
+            }
             reqRegisterBean.mac = LocalUtils.getMac().replace(":", "")
             reqRegisterBean.ip = LocalUtils.getLocalInetAddress().hostAddress
             val param: String = JSON.toJSONString(reqRegisterBean)
             LogUtil.customLog(context.applicationContext, "入网申请推送参数 = $param")
-            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getRegisterUrl(), param, object : Callback {
+            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getRegisterUrl(context), param, object : Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val body: ResponseBody? = response.body()
                     val result: String? = body?.string()

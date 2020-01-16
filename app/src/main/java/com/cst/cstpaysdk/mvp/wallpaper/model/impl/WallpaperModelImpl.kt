@@ -24,7 +24,7 @@ class WallpaperModelImpl : IWallpaperModel {
             val param: String = JSON.toJSONString(reqShopInfoBean)
             LogUtil.customLog(context.applicationContext, "获取屏保壁纸推送参数 = $param")
 
-            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getWallpaperUrl(), param, object : Callback {
+            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getWallpaperUrl(context), param, object : Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val body: ResponseBody? = response.body()
                     val result: String? = body?.string()

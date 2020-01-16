@@ -27,7 +27,7 @@ class VerifyInfoModelImpl : IVerifyInfoModel {
             val param: String = JSON.toJSONString(reqVerifyInfoBean)
             LogUtil.customLog(context.applicationContext, "获取验签信息推送参数 = $param")
 
-            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getSecretKeyUrl(), param, object : Callback {
+            OkHttp3Utils.get().doPostJson(context, ConstantUtils.getSecretKeyUrl(context), param, object : Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val body: ResponseBody? = response.body()
                     val result: String? = body?.string()

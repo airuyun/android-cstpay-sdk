@@ -52,8 +52,8 @@ public class FaceInfoEntityDao extends AbstractDao<FaceInfoEntity, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"FACE_INFO_ENTITY\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"RECORD_ID\" TEXT," + // 1: recordId
-                "\"USER_ID\" TEXT," + // 2: userId
-                "\"USER_CODE\" TEXT," + // 3: userCode
+                "\"USER_ID\" TEXT UNIQUE ," + // 2: userId
+                "\"USER_CODE\" TEXT UNIQUE ," + // 3: userCode
                 "\"USER_NAME\" TEXT," + // 4: userName
                 "\"SEX\" TEXT," + // 5: sex
                 "\"USER_TYPE\" TEXT," + // 6: userType

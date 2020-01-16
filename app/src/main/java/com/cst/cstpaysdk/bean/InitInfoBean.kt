@@ -23,6 +23,11 @@ class InitInfoBean {
     var webSocketPort: String? = null
 
     /**
+     * 设备类型
+     */
+    var equipmentType: String? = null
+
+    /**
      * 是否覆盖，当 SharedPreferences 有变化时，是否更新 initinfo.txt 中的内容
      */
     var isUpdate: Boolean? = null

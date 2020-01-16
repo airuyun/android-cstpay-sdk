@@ -34,7 +34,7 @@ class WebSocketModelIml(val context: Context) : IWebSocketModel {
         return Observable.create {
             LogUtil.customLog(context, "开始与服务端建立WebSocket连接")
             val listener = CstWebSocketListener(context, cstPayManager)
-            OkHttp3Utils.get().doWebSocket(context, null, listener, ConstantUtils.getWebSocketUrl(), "")
+            OkHttp3Utils.get().doWebSocket(context, null, listener, ConstantUtils.getWebSocketUrl(context), "")
             it.onNext(listener)
         }
     }
@@ -50,7 +50,7 @@ class WebSocketModelIml(val context: Context) : IWebSocketModel {
             val param: String = JSON.toJSONString(reqBeatConnectBean)
             LogUtil.customLog(context.applicationContext, "WebSocket心跳推送参数 = $param")
             LogUtil.customLog(context.applicationContext, "queueSize = ${listener.getWebSocket()?.queueSize()}")
-            OkHttp3Utils.get().doWebSocket(context.applicationContext, listener.getWebSocket(), listener, ConstantUtils.getWebSocketUrl(), param)
+            OkHttp3Utils.get().doWebSocket(context.applicationContext, listener.getWebSocket(), listener, ConstantUtils.getWebSocketUrl(context), param)
             it.onComplete()
         }
     }
@@ -177,7 +177,7 @@ class WebSocketModelIml(val context: Context) : IWebSocketModel {
     override fun syncIssuedState(context: Context, syncIssuedStateBean: SyncIssuedStateBean) {
         val param: String = JSON.toJSONString(syncIssuedStateBean)
         LogUtil.customLog(context.applicationContext, "黑白名单下发上报推送参数 = $param")
-        OkHttp3Utils.get().doPostJson(context, ConstantUtils.getSyncIssuedStateUrl(), param, object : Callback {
+        OkHttp3Utils.get().doPostJson(context, ConstantUtils.getSyncIssuedStateUrl(context), param, object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body: ResponseBody? = response.body()
                 val result: String? = body?.string()
