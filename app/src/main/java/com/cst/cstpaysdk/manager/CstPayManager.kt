@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import com.cst.cstpaysdk.bean.InitInfoBean
 import com.cst.cstpaysdk.bean.PayInfoBean
+import com.cst.cstpaysdk.bean.ResTakeFoodInfoBean
 import com.cst.cstpaysdk.mvp.credit.presenter.EquipmentCreditPresenter
 import com.cst.cstpaysdk.mvp.credit.view.IResEquipmentCreditView
 import com.cst.cstpaysdk.mvp.cstpay.presenter.CstPayPresenter
@@ -17,6 +18,12 @@ import com.cst.cstpaysdk.mvp.init.view.IInitView
 import com.cst.cstpaysdk.mvp.register.presenter.RegisterPresenter
 import com.cst.cstpaysdk.mvp.shopinfo.presenter.ShopInfoPresenter
 import com.cst.cstpaysdk.mvp.shopinfo.view.IShopInfoView
+import com.cst.cstpaysdk.mvp.takefood.confirm.presenter.ConfirmTakeFoodPresenter
+import com.cst.cstpaysdk.mvp.takefood.confirm.view.IConfirmTakeFoodView
+import com.cst.cstpaysdk.mvp.takefood.info.presenter.TakeFoodInfoPresenter
+import com.cst.cstpaysdk.mvp.takefood.info.view.ITakeFoodInfoView
+import com.cst.cstpaysdk.mvp.takefood.recfoodinfo.presenter.RecFoodInfoPresenter
+import com.cst.cstpaysdk.mvp.takefood.recfoodinfo.view.IRecFoodInfoView
 import com.cst.cstpaysdk.mvp.traderecord.presenter.TradeRecordPresenter
 import com.cst.cstpaysdk.mvp.traderecord.view.ITradeRecordView
 import com.cst.cstpaysdk.mvp.traderecord.view.IUploadTradeRecordView
@@ -44,6 +51,10 @@ class CstPayManager(private val context: Context) : ICstPayManager {
     private val mWebSocketPre: WebSocketPresenter = WebSocketPresenter(context)
     private val mFaceInfoPre: FaceInfoPresenter = FaceInfoPresenter(context)
     private val mEquipmentCreditPre: EquipmentCreditPresenter = EquipmentCreditPresenter(context)
+
+    private val mRecFoodInfoPre: RecFoodInfoPresenter = RecFoodInfoPresenter(context)
+    private val mTakeFoodInfoPre: TakeFoodInfoPresenter = TakeFoodInfoPresenter(context)
+    private val mConfirmTakeFoodPre: ConfirmTakeFoodPresenter = ConfirmTakeFoodPresenter(context)
 
     override fun init(initInfoBean: InitInfoBean?, initView: IInitView?) {
         initPre.init(initInfoBean, initView)
@@ -175,5 +186,17 @@ class CstPayManager(private val context: Context) : ICstPayManager {
 
     override fun getFaceInfoByUserId(userId: String?, faceInfoView: IFaceInfoView?) {
         mFaceInfoPre.getFaceInfo(userId, faceInfoView)
+    }
+
+    override fun getRecFoodInfo(shopId: String?, iRecFoodInfoView: IRecFoodInfoView?) {
+        mRecFoodInfoPre.getFoodPhoto(shopId, iRecFoodInfoView)
+    }
+
+    override fun getTakeFoodInfo(shopId: String?, userCode: String?, iTakeFoodInfoView: ITakeFoodInfoView?) {
+        mTakeFoodInfoPre.getTakeFoodInfo(shopId, userCode, iTakeFoodInfoView)
+    }
+
+    override fun confirmTakeFood(takeFoodInfo: ResTakeFoodInfoBean?, iConfirmTakeFoodView: IConfirmTakeFoodView?) {
+        mConfirmTakeFoodPre.confirmTakeFood(takeFoodInfo, iConfirmTakeFoodView)
     }
 }

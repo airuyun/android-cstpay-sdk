@@ -2,11 +2,15 @@ package com.cst.cstpaysdk.manager
 
 import com.cst.cstpaysdk.bean.InitInfoBean
 import com.cst.cstpaysdk.bean.PayInfoBean
+import com.cst.cstpaysdk.bean.ResTakeFoodInfoBean
 import com.cst.cstpaysdk.mvp.credit.view.IResEquipmentCreditView
 import com.cst.cstpaysdk.mvp.cstpay.view.ICstPayView
 import com.cst.cstpaysdk.mvp.faceinfo.view.IFaceInfoView
 import com.cst.cstpaysdk.mvp.init.view.IInitView
 import com.cst.cstpaysdk.mvp.shopinfo.view.IShopInfoView
+import com.cst.cstpaysdk.mvp.takefood.confirm.view.IConfirmTakeFoodView
+import com.cst.cstpaysdk.mvp.takefood.info.view.ITakeFoodInfoView
+import com.cst.cstpaysdk.mvp.takefood.recfoodinfo.view.IRecFoodInfoView
 import com.cst.cstpaysdk.mvp.traderecord.view.ITradeRecordView
 import com.cst.cstpaysdk.mvp.traderecord.view.IUploadTradeRecordView
 import com.cst.cstpaysdk.mvp.verifyInfo.view.IVerifyInfoView
@@ -150,4 +154,19 @@ interface ICstPayManager {
      * 通过用户ID查询本地数据库获取人脸信息
      */
     fun getFaceInfoByUserId(userId: String?, faceInfoView: IFaceInfoView?)
+
+    /**
+     * 获取店铺的精品菜（推荐菜品）信息
+     */
+    fun getRecFoodInfo(shopId: String?, iRecFoodInfoView: IRecFoodInfoView?)
+
+    /**
+     * 获取用户在该店铺的取餐信息
+     */
+    fun getTakeFoodInfo(shopId: String?, userCode: String?, iTakeFoodInfoView: ITakeFoodInfoView?)
+
+    /**
+     * 确认取餐
+     */
+    fun confirmTakeFood(takeFoodInfo: ResTakeFoodInfoBean?, iConfirmTakeFoodView: IConfirmTakeFoodView?)
 }

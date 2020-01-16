@@ -51,6 +51,18 @@ object ConstantUtils {
         this.equipmentNo = equipmentNo
     }
 
+    fun getRecFoodInfoUrl(context: Context): String {
+        return "${rootHttpURL(context)}/repast/fbTakeFood/getTakeFoodMenuPhoto"
+    }
+
+    fun getTakeFoodInfoUrl(context: Context): String {
+        return "${rootHttpURL(context)}/repast/fbTakeFood/queryFbTakeFoodInfo"
+    }
+
+    fun getConfirmTakeFoodUrl(context: Context): String {
+        return "${rootHttpURL(context)}/repast/fbTakeFood/confirmTakeFood"
+    }
+
     fun getRegisterUrl(context: Context): String {
         return "${rootHttpURL(context)}/api/equipment/apiout/netApplyFor"
     }
