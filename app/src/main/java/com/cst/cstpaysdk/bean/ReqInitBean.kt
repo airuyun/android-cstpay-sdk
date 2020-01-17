@@ -23,7 +23,8 @@ class ReqInitBean {
     var webSocketPort: String? = null
 
     /**
-     * 设备类型
+     * 设备类型，0201-人脸挂式消费机 0202-人脸双屏消费机 0203-人脸面板消费机
+     * 0204-普通二维码消费机 205-普通消费机
      */
     var equipmentType: String? = null
 
