@@ -1,6 +1,6 @@
 package com.cst.cstpaysdk.bean
 
-class InitInfoBean {
+class ReqInitBean {
 
     /**
      * 服务端HTTP请求IP

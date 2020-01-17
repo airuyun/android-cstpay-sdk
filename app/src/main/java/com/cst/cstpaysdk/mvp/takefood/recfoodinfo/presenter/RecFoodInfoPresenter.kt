@@ -23,14 +23,8 @@ class RecFoodInfoPresenter(val context: Context) : BasePresenter<IRecFoodInfoMod
 
     private val recFoodInfoModel: IRecFoodInfoModel = RecFoodInfoModelImpl()
 
-    fun getFoodPhoto(shopId: String?, iRecFoodInfoView: IRecFoodInfoView?) {
-
-        //没有店铺ID，则无法获取店铺菜品图片
-        if (shopId == null || shopId.isEmpty()) {
-            return
-        }
-
-        recFoodInfoModel.getRecFoodInfo(context, shopId)
+    fun getFoodPhoto(iRecFoodInfoView: IRecFoodInfoView?) {
+        recFoodInfoModel.getRecFoodInfo(context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : BaseObserver<ResRecFoodInfoBean>(iRecFoodInfoView) {

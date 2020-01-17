@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.annotation.NonNull
 import com.cst.cstpaysdk.base.BaseObserver
 import com.cst.cstpaysdk.base.BasePresenter
+import com.cst.cstpaysdk.bean.ResInitBean
 import com.cst.cstpaysdk.bean.ResShopInfoBean
+import com.cst.cstpaysdk.manager.CstApiManager
+import com.cst.cstpaysdk.mvp.init.view.IInitView
 import com.cst.cstpaysdk.mvp.shopinfo.model.IShopInfoModel
 import com.cst.cstpaysdk.mvp.shopinfo.model.impl.ShopInfoModelImpl
-import com.cst.cstpaysdk.mvp.shopinfo.view.IShopInfoView
+import com.cst.cstpaysdk.util.ConstantUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -15,18 +18,26 @@ class ShopInfoPresenter(private val context: Context) : BasePresenter<IShopInfoM
 
     private val shopInfoModel: IShopInfoModel = ShopInfoModelImpl()
 
-    fun getShopInfo(shopInfoView: IShopInfoView?) {
+    fun getShopInfo(initView: IInitView?) {
         shopInfoModel.getShopInfo(context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : BaseObserver<ResShopInfoBean>(shopInfoView) {
+            .subscribe(object : BaseObserver<ResShopInfoBean>(initView) {
 
                 override fun onNext(@NonNull resShopInfoBean: ResShopInfoBean) {
-                    shopInfoView?.getShopInfoSuccess(resShopInfoBean)
+                    CstApiManager(context).startBeatService()
+                    ConstantUtils.shopId = resShopInfoBean.data?.shopId
+                    ConstantUtils.shopName = resShopInfoBean.data?.shopName
+                    val resInitBean = ResInitBean()
+                    resInitBean.equipmentId = ConstantUtils.equipmentId
+                    resInitBean.equipmentNo = ConstantUtils.equipmentNo
+                    resInitBean.shopId = ConstantUtils.shopId
+                    resInitBean.shopName = ConstantUtils.shopName
+                    initView?.initSuccess(resInitBean)
                 }
 
                 override fun onError(@NonNull e: Throwable) {
-                    shopInfoView?.getShopInfoFailure(e)
+                    initView?.initFailure(e)
                 }
 
                 override fun onComplete() {

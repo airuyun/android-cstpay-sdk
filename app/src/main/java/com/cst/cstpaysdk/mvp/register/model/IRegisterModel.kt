@@ -1,6 +1,7 @@
 package com.cst.cstpaysdk.mvp.register.model
 
 import android.content.Context
+import com.cst.cstpaysdk.bean.ReqInitBean
 import com.cst.cstpaysdk.bean.ResRegisterBean
 import io.reactivex.Observable
 
@@ -11,5 +12,5 @@ interface IRegisterModel {
      *
      * @param context 上下文
      */
-    fun register(context: Context): Observable<ResRegisterBean>
+    fun register(context: Context, reqInitBean: ReqInitBean?): Observable<ResRegisterBean>
 }

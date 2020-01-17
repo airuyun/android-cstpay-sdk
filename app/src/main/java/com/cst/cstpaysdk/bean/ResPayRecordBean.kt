@@ -2,7 +2,7 @@ package com.cst.cstpaysdk.bean
 
 import com.cst.cstpaysdk.db.entity.TradeRecordEntity
 
-class ResTradeRecordBean {
+class ResPayRecordBean {
 
     /**
      * 返回码

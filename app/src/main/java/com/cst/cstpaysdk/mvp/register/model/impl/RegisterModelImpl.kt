@@ -2,7 +2,7 @@ package com.cst.cstpaysdk.mvp.register.model.impl
 
 import android.content.Context
 import com.alibaba.fastjson.JSON
-import com.cst.cstpaysdk.bean.InitInfoBean
+import com.cst.cstpaysdk.bean.ReqInitBean
 import com.cst.cstpaysdk.bean.ReqRegisterBean
 import com.cst.cstpaysdk.bean.ResRegisterBean
 import com.cst.cstpaysdk.mvp.register.model.IRegisterModel
@@ -25,17 +25,12 @@ class RegisterModelImpl : IRegisterModel {
      * @param context 上下文
      * @return 被观察者
      */
-    override fun register(context: Context): Observable<ResRegisterBean> {
+    override fun register(context: Context, reqInitBean: ReqInitBean?): Observable<ResRegisterBean> {
         return Observable.create {
             val reqRegisterBean = ReqRegisterBean()
             //设备类型，0201-人脸挂式消费机 0202-人脸双屏消费机
             //0203-人脸面板消费机 0204-普通二维码消费机 205-普通消费机
-
-            val initInfoBean: InitInfoBean? = ConstantUtils.getInitInfo(context)
-            reqRegisterBean.equipmentType = "0202"
-            initInfoBean?.equipmentType?.let {
-                reqRegisterBean.equipmentType = initInfoBean.equipmentType
-            }
+            reqRegisterBean.equipmentType = reqInitBean?.equipmentType
             reqRegisterBean.mac = LocalUtils.getMac().replace(":", "")
             reqRegisterBean.ip = LocalUtils.getLocalInetAddress().hostAddress
             val param: String = JSON.toJSONString(reqRegisterBean)

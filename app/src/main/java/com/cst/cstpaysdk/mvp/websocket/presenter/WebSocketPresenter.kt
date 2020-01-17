@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.NonNull
 import com.cst.cstpaysdk.base.BaseObserver
 import com.cst.cstpaysdk.base.BasePresenter
-import com.cst.cstpaysdk.manager.CstPayManager
+import com.cst.cstpaysdk.manager.CstApiManager
 import com.cst.cstpaysdk.mvp.websocket.model.IWebSocketModel
 import com.cst.cstpaysdk.mvp.websocket.model.impl.WebSocketModelIml
 import com.cst.cstpaysdk.mvp.websocket.view.IWebSocketView
@@ -16,8 +16,8 @@ class WebSocketPresenter(private val context: Context) : BasePresenter<IWebSocke
 
     private val webSocketModel: IWebSocketModel = WebSocketModelIml(context)
 
-    fun webSocketConnect(cstPayManager: CstPayManager, webSocketView: IWebSocketView?) {
-        webSocketModel.webSocketConnect(cstPayManager)
+    internal fun webSocketConnect(cstApiManager: CstApiManager, webSocketView: IWebSocketView?) {
+        webSocketModel.webSocketConnect(cstApiManager)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : BaseObserver<CstWebSocketListener>(webSocketView) {

@@ -3,9 +3,9 @@ package com.cst.cstpaysdk.mvp.traderecord.view
 import com.cst.cstpaysdk.base.IBaseView
 import com.cst.cstpaysdk.bean.ResUploadTradeRecordBean
 
-interface IUploadTradeRecordView : IBaseView {
+interface IUploadPayRecordView : IBaseView {
 
-    fun uploadTradeRecordSuccess(resUploadTradeRecordBean: ResUploadTradeRecordBean)
+    fun uploadPayRecordSuccess(resUploadTradeRecordBean: ResUploadTradeRecordBean)
 
-    fun uploadTradeRecordFailure(error: Throwable)
+    fun uploadPayRecordFailure(error: Throwable)
 }

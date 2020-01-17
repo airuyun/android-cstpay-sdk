@@ -2,7 +2,7 @@ package com.cst.cstpaysdk.util
 
 import android.content.Context
 import com.alibaba.fastjson.JSON
-import com.cst.cstpaysdk.bean.InitInfoBean
+import com.cst.cstpaysdk.bean.ReqInitBean
 
 /**
  * @author TJS
@@ -22,33 +22,19 @@ object ConstantUtils {
 
     //const val SHOP_NAME = "shop_name"
 
-    private var equipmentId: String? = null
-    private var equipmentNo: String? = null
+    var equipmentId: String? = null
+    var equipmentNo: String? = null
+    var shopId: String? = null
+    var shopName: String? = null
 
-    fun getInitInfo(context: Context): InitInfoBean? {
+    fun getInitInfo(context: Context): ReqInitBean? {
         val filePath = "${FileUtil.getPATH()}/${context.packageName}/data/initinfo.txt"
         val initInfo: String? = FileUtil.readFile(filePath)
         return if(initInfo != null) {
-            JSON.parseObject(initInfo, InitInfoBean::class.java)
+            JSON.parseObject(initInfo, ReqInitBean::class.java)
         } else {
             null
         }
-    }
-
-    fun getEquipmentId(): String? {
-        return equipmentId
-    }
-
-    fun setEquipmentId(equipmentId: String?) {
-        this.equipmentId = equipmentId
-    }
-
-    fun getEquipmentNo(): String? {
-        return equipmentNo
-    }
-
-    fun setEquipmentNo(equipmentNo: String?) {
-        this.equipmentNo = equipmentNo
     }
 
     fun getRecFoodInfoUrl(context: Context): String {

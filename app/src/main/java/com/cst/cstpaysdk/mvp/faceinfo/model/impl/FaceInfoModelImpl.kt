@@ -1,7 +1,6 @@
 package com.cst.cstpaysdk.mvp.faceinfo.model.impl
 
 import android.content.Context
-import android.util.Log
 import com.alibaba.fastjson.JSON
 import com.cst.cstpaysdk.db.DBManager
 import com.cst.cstpaysdk.db.FaceInfoEntityDao

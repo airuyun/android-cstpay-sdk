@@ -21,7 +21,7 @@ class ShopInfoModelImpl : IShopInfoModel {
     override fun getShopInfo(context: Context): Observable<ResShopInfoBean> {
         return Observable.create {
             val reqShopInfoBean = ReqShopInfoBean()
-            reqShopInfoBean.data.equipmentNo = ConstantUtils.getEquipmentNo()
+            reqShopInfoBean.data.equipmentNo = ConstantUtils.equipmentNo
             reqShopInfoBean.data.mac = LocalUtils.getMac().replace(":", "")
             val param: String = JSON.toJSONString(reqShopInfoBean)
             LogUtil.customLog(context.applicationContext, "获取店铺信息请求参数 = $param")

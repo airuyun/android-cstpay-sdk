@@ -23,8 +23,8 @@ class TakeFoodInfoPresenter(val context: Context) : BasePresenter<ITakeFoodInfoM
 
     private val takeFoodInfoModel: ITakeFoodInfoModel = TakeFoodInfoModelImpl()
 
-    fun getTakeFoodInfo(shopId: String?, userCode: String?, iTakeFoodInfoView: ITakeFoodInfoView?) {
-        takeFoodInfoModel.getTakeFoodInfo(context, shopId, userCode)
+    fun getTakeFoodInfo(userCode: String?, iTakeFoodInfoView: ITakeFoodInfoView?) {
+        takeFoodInfoModel.getTakeFoodInfo(context, userCode)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : BaseObserver<ResTakeFoodInfoBean>(iTakeFoodInfoView) {

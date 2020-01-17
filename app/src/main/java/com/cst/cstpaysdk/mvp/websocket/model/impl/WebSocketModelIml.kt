@@ -9,11 +9,14 @@ import com.cst.cstpaysdk.bean.SyncIssuedStateBean
 import com.cst.cstpaysdk.db.DBManager
 import com.cst.cstpaysdk.db.FaceInfoEntityDao
 import com.cst.cstpaysdk.db.entity.FaceInfoEntity
-import com.cst.cstpaysdk.manager.CstPayManager
+import com.cst.cstpaysdk.manager.CstApiManager
 import com.cst.cstpaysdk.mvp.websocket.model.IWebSocketModel
 import com.cst.cstpaysdk.net.CstWebSocketListener
 import com.cst.cstpaysdk.net.OkHttp3Utils
-import com.cst.cstpaysdk.util.*
+import com.cst.cstpaysdk.util.Base64Utils
+import com.cst.cstpaysdk.util.ConstantUtils
+import com.cst.cstpaysdk.util.LocalUtils
+import com.cst.cstpaysdk.util.LogUtil
 import com.dj.hrfacelib.faceserver.FaceServer
 import com.dj.hrfacelib.util.ImageUtil
 import io.reactivex.Observable
@@ -30,10 +33,10 @@ class WebSocketModelIml(val context: Context) : IWebSocketModel {
     //心跳指令
     private val BEAT_CONNECT_COMMAND = "20001"
 
-    override fun webSocketConnect(cstPayManager: CstPayManager): Observable<CstWebSocketListener> {
+    override  fun webSocketConnect(cstApiManager: CstApiManager): Observable<CstWebSocketListener> {
         return Observable.create {
             LogUtil.customLog(context, "开始与服务端建立WebSocket连接")
-            val listener = CstWebSocketListener(context, cstPayManager)
+            val listener = CstWebSocketListener(context, cstApiManager)
             OkHttp3Utils.get().doWebSocket(context, null, listener, ConstantUtils.getWebSocketUrl(context), "")
             it.onNext(listener)
         }
@@ -45,8 +48,8 @@ class WebSocketModelIml(val context: Context) : IWebSocketModel {
             reqBeatConnectBean.system = "Android"
             reqBeatConnectBean.systemVersion = android.os.Build.VERSION.RELEASE
             reqBeatConnectBean.command = BEAT_CONNECT_COMMAND
-            reqBeatConnectBean.data?.equipmentId = ConstantUtils.getEquipmentId()
-            reqBeatConnectBean.data?.equipmentNo = ConstantUtils.getEquipmentNo()
+            reqBeatConnectBean.data?.equipmentId = ConstantUtils.equipmentId
+            reqBeatConnectBean.data?.equipmentNo = ConstantUtils.equipmentNo
             val param: String = JSON.toJSONString(reqBeatConnectBean)
             LogUtil.customLog(context.applicationContext, "WebSocket心跳推送参数 = $param")
             LogUtil.customLog(context.applicationContext, "queueSize = ${listener.getWebSocket()?.queueSize()}")

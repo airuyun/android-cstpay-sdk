@@ -12,7 +12,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.IBinder
 import com.cst.cstpaysdk.R
-import com.cst.cstpaysdk.manager.CstPayManager
+import com.cst.cstpaysdk.manager.CstApiManager
 import com.cst.cstpaysdk.mvp.websocket.view.IWebSocketView
 import com.cst.cstpaysdk.net.CstWebSocketListener
 import com.cst.cstpaysdk.util.LocalUtils
@@ -34,7 +34,6 @@ class WebSocketService : Service(), IWebSocketView {
     private var mTimer2: Timer? = null
     private var mTimerTask1: TimerTask? = null
     private var mTimerTask2: TimerTask? = null
-    private var mCstPayManager: CstPayManager? = null
     private var mTimeChangedReceiver: TimeChangedReceiver? = null
     private var mCstWebSocketListener: CstWebSocketListener? = null
 
@@ -45,7 +44,6 @@ class WebSocketService : Service(), IWebSocketView {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
-        mCstPayManager = CstPayManager(applicationContext)
 
         mTimeChangedReceiver = TimeChangedReceiver()
         val filter = IntentFilter()
@@ -60,7 +58,7 @@ class WebSocketService : Service(), IWebSocketView {
                 val isAppAlive: Boolean = LocalUtils.isAppAlive(applicationContext)
                 val isActivityRunning: Boolean = LocalUtils.hasActivityRunning(applicationContext)
                 if (isAppAlive && !isActivityRunning) {
-                    CstPayManager(applicationContext).stopBeatService()
+                    CstApiManager(applicationContext).stopBeatService()
                     LocalUtils.killAppProcess(applicationContext)
                     break
                 }
@@ -97,13 +95,13 @@ class WebSocketService : Service(), IWebSocketView {
                 LogUtil.customLog(applicationContext, "心跳")
                 if(mCstWebSocketListener != null) {
                     mCstWebSocketListener?.getWebSocket()?:let {
-                        mCstPayManager?.webSocketConnect(this@WebSocketService)
+                        CstApiManager(applicationContext).webSocketConnect(this@WebSocketService)
                     }
                     mCstWebSocketListener?.getWebSocket()?.let {
-                        mCstPayManager?.beatConnect(mCstWebSocketListener!!)
+                        CstApiManager(applicationContext).beatConnect(mCstWebSocketListener!!)
                     }
                 } else {
-                    mCstPayManager?.webSocketConnect(this@WebSocketService)
+                    CstApiManager(applicationContext).webSocketConnect(this@WebSocketService)
                 }
             }
         }
@@ -113,7 +111,7 @@ class WebSocketService : Service(), IWebSocketView {
         //消费记录上报，每隔15分钟更新一次
         mTimerTask2 = object : TimerTask() {
             override fun run() {
-                mCstPayManager?.uploadTradeRecord(null)
+                CstApiManager(applicationContext).uploadPayRecord(null)
             }
         }
         mTimer2 = Timer()

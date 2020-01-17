@@ -1,11 +1,11 @@
 package com.cst.cstpaysdk.mvp.traderecord.view
 
 import com.cst.cstpaysdk.base.IBaseView
-import com.cst.cstpaysdk.bean.ResTradeRecordBean
+import com.cst.cstpaysdk.bean.ResPayRecordBean
 
-interface ITradeRecordView : IBaseView {
+interface IPayRecordView : IBaseView {
 
-    fun queryTradeRecordSuccess(resTradeRecordBean: ResTradeRecordBean)
+    fun queryPayRecordSuccess(resPayRecordBean: ResPayRecordBean)
 
-    fun queryTradeRecordFailure(error: Throwable)
+    fun queryPayRecordFailure(error: Throwable)
 }

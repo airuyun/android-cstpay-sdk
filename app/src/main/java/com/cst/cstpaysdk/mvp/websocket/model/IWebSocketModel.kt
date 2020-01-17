@@ -2,13 +2,13 @@ package com.cst.cstpaysdk.mvp.websocket.model
 
 import android.content.Context
 import com.cst.cstpaysdk.bean.SyncIssuedStateBean
-import com.cst.cstpaysdk.manager.CstPayManager
+import com.cst.cstpaysdk.manager.CstApiManager
 import com.cst.cstpaysdk.net.CstWebSocketListener
 import io.reactivex.Observable
 
 interface IWebSocketModel {
 
-    fun webSocketConnect(cstPayManager: CstPayManager): Observable<CstWebSocketListener>
+    fun webSocketConnect(cstApiManager: CstApiManager): Observable<CstWebSocketListener>
 
     fun beatConnect(context: Context, listener: CstWebSocketListener): Observable<String>
 

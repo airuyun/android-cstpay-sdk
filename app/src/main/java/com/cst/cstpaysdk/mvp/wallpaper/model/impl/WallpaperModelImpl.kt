@@ -2,7 +2,6 @@ package com.cst.cstpaysdk.mvp.wallpaper.model.impl
 
 import android.content.Context
 import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.JSONObject
 import com.cst.cstpaysdk.bean.ReqShopInfoBean
 import com.cst.cstpaysdk.bean.ResWallpaperBean
 import com.cst.cstpaysdk.mvp.wallpaper.model.IWallpaperModel

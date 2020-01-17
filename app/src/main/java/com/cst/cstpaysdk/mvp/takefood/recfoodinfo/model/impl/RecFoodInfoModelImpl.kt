@@ -18,11 +18,11 @@ import java.io.IOException
 
 class RecFoodInfoModelImpl : IRecFoodInfoModel {
 
-    override fun getRecFoodInfo(context: Context, shopId: String?): Observable<ResRecFoodInfoBean> {
+    override fun getRecFoodInfo(context: Context): Observable<ResRecFoodInfoBean> {
 
         return Observable.create {
             val reqRecFoodInfoBean = ReqRecFoodInfoBean()
-            reqRecFoodInfoBean.data.shopId = shopId
+            reqRecFoodInfoBean.data.shopId = ConstantUtils.shopId
             val param: String = JSON.toJSONString(reqRecFoodInfoBean)
             LogUtil.customLog(context, "获取推荐菜品图片推送参数 = $param")
 

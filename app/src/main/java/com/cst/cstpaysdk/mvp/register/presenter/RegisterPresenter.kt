@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.annotation.NonNull
 import com.cst.cstpaysdk.base.BaseObserver
 import com.cst.cstpaysdk.base.BasePresenter
-import com.cst.cstpaysdk.bean.InitInfoBean
+import com.cst.cstpaysdk.bean.ReqInitBean
 import com.cst.cstpaysdk.bean.ResRegisterBean
-import com.cst.cstpaysdk.manager.CstPayManager
+import com.cst.cstpaysdk.manager.CstApiManager
 import com.cst.cstpaysdk.mvp.init.view.IInitView
 import com.cst.cstpaysdk.mvp.register.model.IRegisterModel
 import com.cst.cstpaysdk.mvp.register.model.impl.RegisterModelImpl
@@ -18,19 +18,16 @@ class RegisterPresenter(private val context: Context) : BasePresenter<IRegisterM
 
     private val registerModel: IRegisterModel = RegisterModelImpl()
 
-    fun register(initInfoBean: InitInfoBean?, initView: IInitView?) {
-        registerModel.register(context)
+    fun register(reqInitBean: ReqInitBean?, initView: IInitView?) {
+        registerModel.register(context, reqInitBean)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : BaseObserver<ResRegisterBean>(initView) {
 
                 override fun onNext(@NonNull resRegisterBean: ResRegisterBean) {
-                    CstPayManager(context).startBeatService()
-                    val equipmentId: String? = resRegisterBean.data?.equipmentId
-                    val equipmentNo: String? = resRegisterBean.data?.equipmentNo
-                    ConstantUtils.setEquipmentId(equipmentId)
-                    ConstantUtils.setEquipmentNo(equipmentNo)
-                    initView?.initSuccess(equipmentId, equipmentNo)
+                    ConstantUtils.equipmentId = resRegisterBean.data?.equipmentId
+                    ConstantUtils.equipmentNo = resRegisterBean.data?.equipmentNo
+                    CstApiManager(context).getShopInfo(initView)
                 }
 
                 override fun onError(@NonNull e: Throwable) {

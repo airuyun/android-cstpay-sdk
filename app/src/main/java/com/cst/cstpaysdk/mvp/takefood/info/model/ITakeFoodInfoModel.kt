@@ -12,5 +12,5 @@ interface ITakeFoodInfoModel {
      * @param context 上下文
      * @param context 用户编号
      */
-    fun getTakeFoodInfo(context: Context, shopId: String?, userCode: String?): Observable<ResTakeFoodInfoBean>
+    fun getTakeFoodInfo(context: Context, userCode: String?): Observable<ResTakeFoodInfoBean>
 }

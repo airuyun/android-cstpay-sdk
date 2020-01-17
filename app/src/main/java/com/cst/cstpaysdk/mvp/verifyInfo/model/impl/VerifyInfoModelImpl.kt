@@ -21,7 +21,7 @@ class VerifyInfoModelImpl : IVerifyInfoModel {
     override fun getVerifyInfo(context: Context, secretKeyType: String): Observable<ResVerifyInfoBean> {
         return Observable.create {
             val reqVerifyInfoBean = ReqVerifyInfoBean()
-            reqVerifyInfoBean.equipmentId = ConstantUtils.getEquipmentId()
+            reqVerifyInfoBean.equipmentId = ConstantUtils.equipmentId
             reqVerifyInfoBean.mac = LocalUtils.getMac().replace(":", "")
             reqVerifyInfoBean.type = secretKeyType
             val param: String = JSON.toJSONString(reqVerifyInfoBean)

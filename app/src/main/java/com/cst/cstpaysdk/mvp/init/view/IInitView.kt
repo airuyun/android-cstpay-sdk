@@ -1,6 +1,7 @@
 package com.cst.cstpaysdk.mvp.init.view
 
 import com.cst.cstpaysdk.base.IBaseView
+import com.cst.cstpaysdk.bean.ResInitBean
 
 /**
  * @author tjs
@@ -12,7 +13,7 @@ import com.cst.cstpaysdk.base.IBaseView
  */
 interface IInitView : IBaseView {
 
-    fun initSuccess(equipmentId: String?, equipmentNo: String?)
+    fun initSuccess(resInitBean: ResInitBean?)
 
     fun initFailure(error: Throwable)
 }

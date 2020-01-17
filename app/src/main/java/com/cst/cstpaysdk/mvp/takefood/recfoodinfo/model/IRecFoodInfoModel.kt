@@ -11,5 +11,5 @@ interface IRecFoodInfoModel {
      *
      * @param context 上下文
      */
-    fun getRecFoodInfo(context: Context, shopId: String?): Observable<ResRecFoodInfoBean>
+    fun getRecFoodInfo(context: Context): Observable<ResRecFoodInfoBean>
 }

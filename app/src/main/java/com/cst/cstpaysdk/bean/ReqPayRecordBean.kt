@@ -2,7 +2,7 @@ package com.cst.cstpaysdk.bean
 
 import com.cst.cstpaysdk.db.entity.TradeRecordEntity
 
-class ReqTradeRecordBean {
+class ReqPayRecordBean {
 
     /**
      * 设备的系统类型

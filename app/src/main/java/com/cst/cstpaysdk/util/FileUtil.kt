@@ -35,7 +35,7 @@ object FileUtil {
         val dir = File(dirPath)
         val list: MutableList<File> = mutableListOf()
         if (dir.isDirectory) {
-            val files = dir.listFiles()
+            val files = dir.listFiles() ?: return list
             for (f in files) {
                 list.add(f)
             }

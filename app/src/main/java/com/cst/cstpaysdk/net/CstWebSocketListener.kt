@@ -3,13 +3,13 @@ package com.cst.cstpaysdk.net
 import android.content.Context
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
-import com.cst.cstpaysdk.manager.CstPayManager
+import com.cst.cstpaysdk.manager.CstApiManager
 import com.cst.cstpaysdk.util.LogUtil
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 
-class CstWebSocketListener(val context: Context, val cstPayManager: CstPayManager) : WebSocketListener(){
+class CstWebSocketListener(val context: Context, private val cstApiManager: CstApiManager) : WebSocketListener(){
 
     //心跳
     private val BEAT_COMMAND = "20001"
@@ -54,27 +54,27 @@ class CstWebSocketListener(val context: Context, val cstPayManager: CstPayManage
         when (command) {
             //获取人脸信息
             FACE_INFO_COMMAND -> {
-                cstPayManager.setFaceInfo(data)
+                cstApiManager.setFaceInfo(data)
             }
 
             //获取卡信息
             CARD_INFO_COMMAND -> {
-                cstPayManager.setCardInfo(data)
+                cstApiManager.setCardInfo(data)
             }
 
             //获取指纹信息，
             FINGERPRINT_INFO_COMMAND -> {
-                //cstPayManager.setFingerprintInfo()
+                //cstApiManager.setFingerprintInfo()
             }
 
             //获取密码信息
             PASSWORD_INFO_COMMAND -> {
-                //cstPayManager.setPasswordInfo()
+                //cstApiManager.setPasswordInfo()
             }
 
             //获取设备信用信息
             EQUIPMENT_CREDIT_COMMAND -> {
-                cstPayManager.setEquipmentCreditInfo(data, null)
+                cstApiManager.setEquipmentCreditInfo(data, null)
             }
         }
     }

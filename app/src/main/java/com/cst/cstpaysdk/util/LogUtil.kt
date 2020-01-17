@@ -34,7 +34,7 @@ object LogUtil {
     private fun saveLogToFile(context: Context, msg: String) {
         val filePath = FileUtil.getPATH() + "CstPay/log/log_" + DateUtils.getCurrentFormatTime("yyyyMMddHH") + ".txt"
         val saveFile = File(filePath)
-        val parentFile = saveFile.parentFile
+        val parentFile: File = saveFile.parentFile ?: return
         deleteAllFileIfFull(parentFile)
         var outStream: FileOutputStream? = null
         try {
@@ -66,7 +66,7 @@ object LogUtil {
         }
         if (logDir.exists() && logDir.isDirectory) {
             var totalSize = 0L
-            val logFiles = logDir.listFiles()
+            val logFiles: Array<File> = logDir.listFiles() ?: return
             for (logFile in logFiles) {
                 totalSize += logFile.length()
             }

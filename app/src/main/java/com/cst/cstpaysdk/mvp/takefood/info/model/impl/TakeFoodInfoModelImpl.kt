@@ -8,7 +8,6 @@ import com.cst.cstpaysdk.bean.ResTakeFoodInfoBean
 import com.cst.cstpaysdk.mvp.takefood.info.model.ITakeFoodInfoModel
 import com.cst.cstpaysdk.net.OkHttp3Utils
 import com.cst.cstpaysdk.util.ConstantUtils
-import com.cst.cstpaysdk.util.LocalUtils
 import com.cst.cstpaysdk.util.LogUtil
 import io.reactivex.Observable
 import okhttp3.Call
@@ -27,10 +26,10 @@ import java.io.IOException
  */
 class TakeFoodInfoModelImpl : ITakeFoodInfoModel {
 
-    override fun getTakeFoodInfo(context: Context, shopId: String?, userCode: String?): Observable<ResTakeFoodInfoBean> {
+    override fun getTakeFoodInfo(context: Context, userCode: String?): Observable<ResTakeFoodInfoBean> {
         return Observable.create {
             val reqTakeFoodInfoBean = ReqTakeFoodInfoBean()
-            reqTakeFoodInfoBean.data.shopId = shopId
+            reqTakeFoodInfoBean.data.shopId = ConstantUtils.shopId
             reqTakeFoodInfoBean.data.userCode = userCode
             val param: String = JSON.toJSONString(reqTakeFoodInfoBean)
             LogUtil.customLog(context, "获取取餐信息推送参数 = $param")

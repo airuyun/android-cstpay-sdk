@@ -3,8 +3,8 @@ package com.cst.cstpaysdk.mvp.traderecord.model.impl
 import android.content.Context
 import android.database.Cursor
 import com.alibaba.fastjson.JSON
-import com.cst.cstpaysdk.bean.ReqTradeRecordBean
-import com.cst.cstpaysdk.bean.ResTradeRecordBean
+import com.cst.cstpaysdk.bean.ReqPayRecordBean
+import com.cst.cstpaysdk.bean.ResPayRecordBean
 import com.cst.cstpaysdk.bean.ResUploadTradeRecordBean
 import com.cst.cstpaysdk.db.DBManager
 import com.cst.cstpaysdk.db.TradeRecordEntityDao
@@ -26,7 +26,7 @@ import java.math.BigDecimal
 
 class TradeRecordModelImpl : ITradeRecordModel {
 
-    override fun offlineQueryTradeRecord(context: Context, startTime: String, endTime: String): Observable<ResTradeRecordBean> {
+    override fun offlineQueryPayRecord(context: Context, startTime: String, endTime: String): Observable<ResPayRecordBean> {
         return Observable.create {
             val startTime1: String = startTime.replace(Regex("[^0-9]"), "")
             val endTime1: String = endTime.replace(Regex("[^0-9]"), "")
@@ -72,22 +72,22 @@ class TradeRecordModelImpl : ITradeRecordModel {
                 //不能使用cursor.getString，否则结果精度会丢失
                 amount = BigDecimal(cursor.getDouble(cursor.getColumnIndex("SUM(cast(AMOUNT AS decimal(18,2)))"))).setScale(2, BigDecimal.ROUND_HALF_UP).toDouble()
             }
-            val resTradeRecordBean = ResTradeRecordBean()
-            resTradeRecordBean.code = 200
-            resTradeRecordBean.msg = "查询成功"
-            resTradeRecordBean.data?.totalNum = list.size
-            resTradeRecordBean.data?.totalPrice = amount.toString()
-            resTradeRecordBean.data?.tradeLogs = list
-            val result: String = JSON.toJSONString(resTradeRecordBean)
+            val resPayRecordBean = ResPayRecordBean()
+            resPayRecordBean.code = 200
+            resPayRecordBean.msg = "查询成功"
+            resPayRecordBean.data?.totalNum = list.size
+            resPayRecordBean.data?.totalPrice = amount.toString()
+            resPayRecordBean.data?.tradeLogs = list
+            val result: String = JSON.toJSONString(resPayRecordBean)
             LogUtil.customLog(context, "离线查询交易记录响应参数，result = $result")
-            it.onNext(resTradeRecordBean)
+            it.onNext(resPayRecordBean)
         }
     }
 
-    override fun onlineQueryTradeRecord(context: Context, startTime: String, endTime: String): Observable<ResTradeRecordBean> {
+    override fun onlineQueryPayRecord(context: Context, startTime: String, endTime: String): Observable<ResPayRecordBean> {
         return Observable.create {
-            val reqTradeRecordBean = ReqTradeRecordBean()
-            val param: String = JSON.toJSONString(reqTradeRecordBean)
+            val reqPayRecordBean = ReqPayRecordBean()
+            val param: String = JSON.toJSONString(reqPayRecordBean)
             LogUtil.customLog(context, "在线查询交易记录请求参数，param = $param")
             OkHttp3Utils.get().doPostJson(context, ConstantUtils.getTradeRecordUrl(context), param, object : Callback {
                     override fun onResponse(call: Call, response: Response) {
@@ -95,11 +95,11 @@ class TradeRecordModelImpl : ITradeRecordModel {
                         val result: String? = body?.string()
                         LogUtil.customLog(context, "在线查询交易记录响应参数，result = $result")
                         if (result != null && result.startsWith("{") && result.endsWith("}")) {
-                            val resTradeRecordBean: ResTradeRecordBean = JSON.parseObject(result, ResTradeRecordBean::class.java)
-                            if (resTradeRecordBean.code == 200) {
-                                it.onNext(resTradeRecordBean)
+                            val resPayRecordBean: ResPayRecordBean = JSON.parseObject(result, ResPayRecordBean::class.java)
+                            if (resPayRecordBean.code == 200) {
+                                it.onNext(resPayRecordBean)
                             } else {
-                                it.onError(Throwable(resTradeRecordBean.msg ?: "在线查询交易记录失败"))
+                                it.onError(Throwable(resPayRecordBean.msg ?: "在线查询交易记录失败"))
                             }
                         } else {
                             it.onError(Throwable("在线查询交易记录失败"))
@@ -114,7 +114,7 @@ class TradeRecordModelImpl : ITradeRecordModel {
         }
     }
 
-    override fun uploadTradeRecord(context: Context): Observable<ResUploadTradeRecordBean> {
+    override fun uploadPayRecord(context: Context): Observable<ResUploadTradeRecordBean> {
         return Observable.create {
             val entityDao: TradeRecordEntityDao = DBManager.getInstance(context).tradeRecordEntityDao
             val condition: WhereCondition = TradeRecordEntityDao.Properties.SyncState.eq("0")
@@ -125,17 +125,17 @@ class TradeRecordModelImpl : ITradeRecordModel {
                 return@create
             }
 
-            val reqTradeRecordBean = ReqTradeRecordBean()
-            reqTradeRecordBean.system = "Android"
-            reqTradeRecordBean.systemVersion = android.os.Build.VERSION.RELEASE
-            reqTradeRecordBean.userId = ""
-            reqTradeRecordBean.clientId = ""
-            reqTradeRecordBean.checkcode = ""
-            reqTradeRecordBean.data?.mac = LocalUtils.getMac().replace(":", "")
-            reqTradeRecordBean.data?.tradeCount = list?.size?.toString()
-            reqTradeRecordBean.data?.tradeList = list
-            val param1: String = JSON.toJSONString(reqTradeRecordBean)
-            val tradeRecordBean: ReqTradeRecordBean = JSON.parseObject(param1, ReqTradeRecordBean::class.java)
+            val reqPayRecordBean = ReqPayRecordBean()
+            reqPayRecordBean.system = "Android"
+            reqPayRecordBean.systemVersion = android.os.Build.VERSION.RELEASE
+            reqPayRecordBean.userId = ""
+            reqPayRecordBean.clientId = ""
+            reqPayRecordBean.checkcode = ""
+            reqPayRecordBean.data?.mac = LocalUtils.getMac().replace(":", "")
+            reqPayRecordBean.data?.tradeCount = list?.size?.toString()
+            reqPayRecordBean.data?.tradeList = list
+            val param1: String = JSON.toJSONString(reqPayRecordBean)
+            val tradeRecordBean: ReqPayRecordBean = JSON.parseObject(param1, ReqPayRecordBean::class.java)
             val tradeList: MutableList<TradeRecordEntity>? = tradeRecordBean.data?.tradeList
             if(tradeList != null) {
                 for ((i, tradeRecord: TradeRecordEntity) in tradeList.withIndex()) {
