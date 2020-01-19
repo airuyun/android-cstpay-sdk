@@ -32,7 +32,7 @@ object LogUtil {
     }
 
     private fun saveLogToFile(context: Context, msg: String) {
-        val filePath = FileUtil.getPATH() + "CstPay/log/log_" + DateUtils.getCurrentFormatTime("yyyyMMddHH") + ".txt"
+        val filePath = "${FileUtil.getPATH()}/${context.packageName}/log/log_" + DateUtils.getCurrentFormatTime("yyyyMMddHH") + ".txt"
         val saveFile = File(filePath)
         val parentFile: File = saveFile.parentFile ?: return
         deleteAllFileIfFull(parentFile)

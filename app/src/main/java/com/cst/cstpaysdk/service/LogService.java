@@ -430,7 +430,7 @@ public class LogService extends Service
         LOG_PATH_SDCARD_DIR = Environment.getExternalStorageDirectory()
                 .getAbsolutePath()
                 + File.separator
-                + "CstPay"
+                + getPackageName()
                 + File.separator
                 + "log";
         File file = new File(LOG_PATH_SDCARD_DIR);
