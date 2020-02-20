@@ -15,6 +15,7 @@ import com.cst.cstpaysdk.R
 import com.cst.cstpaysdk.manager.CstApiManager
 import com.cst.cstpaysdk.mvp.websocket.view.IWebSocketView
 import com.cst.cstpaysdk.net.CstWebSocketListener
+import com.cst.cstpaysdk.util.ConstantUtils
 import com.cst.cstpaysdk.util.LocalUtils
 import com.cst.cstpaysdk.util.LogUtil
 import io.reactivex.disposables.Disposable
@@ -92,16 +93,23 @@ class WebSocketService : Service(), IWebSocketView {
         //保持与服务器的心跳连接，心跳时间间隔为2分钟
         mTimerTask1 = object : TimerTask() {
             override fun run() {
-                LogUtil.customLog(applicationContext, "心跳")
-                if(mCstWebSocketListener != null) {
-                    mCstWebSocketListener?.getWebSocket()?:let {
+                //不配置的情况下，默认使用WebSocket心跳协议
+                val beatProtocol = ConstantUtils.getInitInfo(applicationContext)?.beatProtocol
+                if(beatProtocol == "http") {
+                    LogUtil.customLog(applicationContext, "HTTP心跳")
+                    CstApiManager(applicationContext).httpBeatConnect(null)
+                } else {
+                    LogUtil.customLog(applicationContext, "WebSocket心跳")
+                    if(mCstWebSocketListener != null) {
+                        mCstWebSocketListener?.getWebSocket()?:let {
+                            CstApiManager(applicationContext).webSocketConnect(this@WebSocketService)
+                        }
+                        mCstWebSocketListener?.getWebSocket()?.let {
+                            CstApiManager(applicationContext).beatConnect(mCstWebSocketListener!!)
+                        }
+                    } else {
                         CstApiManager(applicationContext).webSocketConnect(this@WebSocketService)
                     }
-                    mCstWebSocketListener?.getWebSocket()?.let {
-                        CstApiManager(applicationContext).beatConnect(mCstWebSocketListener!!)
-                    }
-                } else {
-                    CstApiManager(applicationContext).webSocketConnect(this@WebSocketService)
                 }
             }
         }

@@ -1,9 +1,10 @@
 package com.cst.cstpaysdk.manager
 
 import android.content.Context
-import com.cst.cstpaysdk.bean.ReqInitBean
 import com.cst.cstpaysdk.bean.PayInfoBean
+import com.cst.cstpaysdk.bean.ReqInitBean
 import com.cst.cstpaysdk.bean.ResTakeFoodInfoBean
+import com.cst.cstpaysdk.mvp.httpbeat.view.IHttpBeatView
 import com.cst.cstpaysdk.mvp.credit.view.IResEquipmentCreditView
 import com.cst.cstpaysdk.mvp.cstpay.view.ICstPayView
 import com.cst.cstpaysdk.mvp.faceinfo.view.IFaceInfoView
@@ -39,6 +40,10 @@ class CstApiManager(context: Context) : ICstApiManager {
 
     override fun register(reqInitBean: ReqInitBean?, initView: IInitView?) {
         commonManager.register(reqInitBean, initView)
+    }
+
+    override fun httpBeatConnect(httpBeatView: IHttpBeatView?) {
+        commonManager.httpBeatConnect(httpBeatView)
     }
 
     override fun getShopInfo(initView: IInitView?) {

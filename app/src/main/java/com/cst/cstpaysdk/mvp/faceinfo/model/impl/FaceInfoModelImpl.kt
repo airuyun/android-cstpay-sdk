@@ -11,7 +11,7 @@ import io.reactivex.Observable
 
 class FaceInfoModelImpl : IFaceInfoModel {
 
-    override fun getFaceInfo(context: Context, userId: String?): Observable<FaceInfoEntity> {
+    override fun getFaceInfoByUserId(context: Context, userId: String?): Observable<FaceInfoEntity> {
         return Observable.create {
             LogUtil.customLog(context, "本地查询人脸请求参数，userId = $userId")
             val faceInfoEntityDao: FaceInfoEntityDao = DBManager.getInstance(context).faceInfoEntityDao

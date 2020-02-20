@@ -32,4 +32,9 @@ class ReqInitBean {
      * 是否覆盖，当 SharedPreferences 有变化时，是否更新 initinfo.txt 中的内容
      */
     var isUpdate: Boolean? = null
+
+    /**
+     * 心跳使用http或WebSocket两种协议中的其中一种，默认使用WebSocket请求协议
+     */
+    var beatProtocol: String? = null
 }

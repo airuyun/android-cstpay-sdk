@@ -11,5 +11,5 @@ interface IFaceInfoModel {
      *
      * @param context 上下文
      */
-    fun getFaceInfo(context: Context, userId: String?): Observable<FaceInfoEntity>
+    fun getFaceInfoByUserId(context: Context, userId: String?): Observable<FaceInfoEntity>
 }

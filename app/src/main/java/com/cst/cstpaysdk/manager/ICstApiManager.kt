@@ -1,8 +1,9 @@
 package com.cst.cstpaysdk.manager
 
-import com.cst.cstpaysdk.bean.ReqInitBean
 import com.cst.cstpaysdk.bean.PayInfoBean
+import com.cst.cstpaysdk.bean.ReqInitBean
 import com.cst.cstpaysdk.bean.ResTakeFoodInfoBean
+import com.cst.cstpaysdk.mvp.httpbeat.view.IHttpBeatView
 import com.cst.cstpaysdk.mvp.credit.view.IResEquipmentCreditView
 import com.cst.cstpaysdk.mvp.cstpay.view.ICstPayView
 import com.cst.cstpaysdk.mvp.faceinfo.view.IFaceInfoView
@@ -28,6 +29,11 @@ interface ICstApiManager {
      * 入网申请，向康索特三代平台注册
      */
     fun register(reqInitBean: ReqInitBean?, initView: IInitView?)
+
+    /**
+     * HTTP心跳请求
+     */
+    fun httpBeatConnect(httpBeatView: IHttpBeatView?)
 
     /**
      * 获取店铺信息

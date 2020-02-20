@@ -12,8 +12,14 @@ class ReqBeatConnectBean {
      */
     var systemVersion: String? = null
 
+    var token: String? = null
+
+    var clientId: String? = null
+
     /**
      * 接口指令，设备注册相关，调用同一个url，通过command区分调用不同的接口
+     * 1001-HTTP心跳  1002-HTTP用户人脸下发
+     * 20001-WebSock心跳
      */
     var command: String? = null
 
@@ -34,6 +40,23 @@ class ReqBeatConnectBean {
          * 设备号，是否必输-Y
          */
         var equipmentNo: String? = null
+
+        /**
+         * 接口指令，设备注册相关，调用同一个url，通过command区分调用不同的接口
+         * 1001-HTTP心跳  1002-HTTP用户人脸下发
+         * 20001-WebSock心跳
+         */
+        var command: String? = null
+
+        /**
+         * 设备MAC地址
+         */
+        var mac: String? = null
+
+        /**
+         * 设备IP地址
+         */
+        var ip: String? = null
 
     }
 }

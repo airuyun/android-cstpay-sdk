@@ -23,8 +23,8 @@ class FaceInfoPresenter(private val context: Context) : BasePresenter<IFaceInfoM
 
     private val faceInfoModel: IFaceInfoModel = FaceInfoModelImpl()
 
-    fun getFaceInfo(userId: String?, faceInfoView: IFaceInfoView?) {
-        faceInfoModel.getFaceInfo(context, userId)
+    fun getFaceInfoByUserId(userId: String?, faceInfoView: IFaceInfoView?) {
+        faceInfoModel.getFaceInfoByUserId(context, userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : BaseObserver<FaceInfoEntity>(faceInfoView) {

@@ -2,6 +2,7 @@ package com.cst.cstpaysdk.util
 
 import android.content.Context
 import com.alibaba.fastjson.JSON
+import com.cst.cstpaysdk.bean.ReqHttpSyncIssuedStateBean
 import com.cst.cstpaysdk.bean.ReqInitBean
 
 /**
@@ -14,18 +15,13 @@ import com.cst.cstpaysdk.bean.ReqInitBean
  */
 object ConstantUtils {
 
-    //网络数据请求成功返回响应码
-   // const val RESPONSE_SUCCESS_CODE = 200
-
-    //更新时间标志
-   // const val UPDATE_TIME_TAG = 0
-
-    //const val SHOP_NAME = "shop_name"
-
     var equipmentId: String? = null
     var equipmentNo: String? = null
     var shopId: String? = null
     var shopName: String? = null
+
+    var currentCommandValue: String? = null
+    var httpSyncIssuedStateBean: ReqHttpSyncIssuedStateBean? = null
 
     fun getInitInfo(context: Context): ReqInitBean? {
         val filePath = "${FileUtil.getPATH()}/${context.packageName}/data/initinfo.txt"
@@ -35,6 +31,13 @@ object ConstantUtils {
         } else {
             null
         }
+    }
+
+    /**
+     * HTTP心跳请求URL
+     */
+    fun getHTTPBeatConnectUrl(context: Context): String {
+        return "${rootHttpURL(context)}/equipment/apiout/instruct"
     }
 
     fun getRecFoodInfoUrl(context: Context): String {
