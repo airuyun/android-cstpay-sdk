@@ -95,7 +95,7 @@ class WebSocketService : Service(), IWebSocketView {
             override fun run() {
                 //不配置的情况下，默认使用WebSocket心跳协议
                 val beatProtocol = ConstantUtils.getInitInfo(applicationContext)?.beatProtocol
-                if(beatProtocol == "http") {
+                if("http".equals(beatProtocol, true) ) {
                     LogUtil.customLog(applicationContext, "HTTP心跳")
                     CstApiManager(applicationContext).httpBeatConnect(null)
                 } else {
