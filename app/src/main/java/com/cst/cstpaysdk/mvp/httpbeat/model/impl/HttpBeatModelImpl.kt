@@ -43,7 +43,7 @@ class HttpBeatModelImpl : IHttpBeatModel{
                 reqBeatConnectBean.data?.equipmentNo = ConstantUtils.equipmentNo
                 reqBeatConnectBean.data?.command = "1001"
                 reqBeatConnectBean.data?.mac = LocalUtils.getMac().replace(":", "")
-                reqBeatConnectBean.data?.ip = ""
+                reqBeatConnectBean.data?.ip = LocalUtils.getLocalInetAddress().hostAddress
                 param = JSON.toJSONString(reqBeatConnectBean)
             }
             LogUtil.customLog(context.applicationContext, "HTTP心跳推送参数 = $param")
