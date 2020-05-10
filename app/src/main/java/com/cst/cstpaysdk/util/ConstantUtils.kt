@@ -40,16 +40,25 @@ object ConstantUtils {
         return "${rootHttpURL(context)}/equipment/apiout/instruct"
     }
 
+    /**
+     * 获取推荐菜品信息
+     */
     fun getRecFoodInfoUrl(context: Context): String {
-        return "${rootHttpURL(context)}/repast/fbTakeFood/getTakeFoodMenuPhoto"
+        return "${rootHttpURL(context)}/api/repast/fbTakeFood/getTakeFoodMenuPhoto"
     }
 
+    /**
+     * 获取取餐信息
+     */
     fun getTakeFoodInfoUrl(context: Context): String {
-        return "${rootHttpURL(context)}/repast/fbTakeFood/queryFbTakeFoodInfo"
+        return "${rootHttpURL(context)}/api/repast/fbTakeFood/queryFbTakeFoodInfo"
     }
 
+    /**
+     * 确认取餐
+     */
     fun getConfirmTakeFoodUrl(context: Context): String {
-        return "${rootHttpURL(context)}/repast/fbTakeFood/confirmTakeFood"
+        return "${rootHttpURL(context)}/api/repast/fbTakeFood/confirmTakeFood"
     }
 
     fun getRegisterUrl(context: Context): String {
@@ -60,6 +69,9 @@ object ConstantUtils {
         return "${rootHttpURL(context)}/api/equipment/apiout/getsecretKey"
     }
 
+    /**
+     * 获取店铺信息
+     */
     fun getShopInfoUrl(context: Context): String {
         return "${rootHttpURL(context)}/api/repast/fbTakeFood/getShopInfoByMac"
     }
